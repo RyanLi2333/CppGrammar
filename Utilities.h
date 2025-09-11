@@ -21,7 +21,7 @@ namespace func {
 	bool isZero(double x); // 判断是否为0 
 	// 互换值 模板函数
 	template<typename T> // 模板放.h中定义 
-	void swapValue(const T& x, const T& y);
+	void swapValue(T& x, T& y);
 	// 展示值
 	template<typename T> 
 	void printValue(const T& x, const T& y); 
@@ -33,8 +33,12 @@ namespace func {
 	void printArray(const T(&array)[N]);
 	// 任意基本数据类型相加
 	template<typename T> 
-	T addi(const T& x, const T& y);
+	T addi(const T& x, const T& y);  
+	// 为Circle entities定制的模板特化 
+	template<>
+	Circle func::addi<Circle>(const Circle& x, const Circle& y); // 声明
 }
+
 /*
 模板 
 如果同名，函数模板和函数默认调用函数
@@ -48,6 +52,7 @@ namespace func {
 
 // 圆类 
 class Circle { 
+	friend Circle func::addi<Circle>(const Circle& x, const Circle& y); // 模板特化友元(带上namespace)
 	friend double func::getPI(); // 声明全局函数做友元，全局函数可以访问该类私有成员 
 	friend std::istream& operator>>(std::istream& cin, Circle& circle); // 友元 
 	friend bool operator==(const Circle& c1, const Circle& c2); 
@@ -96,7 +101,7 @@ bool operator<=(const Circle& c1, const Circle& c2); // 小于等于号重载
 namespace func {  
 	// 互换值模板函数 
 	template<typename T> 
-	void swapValue(const T& x, const T& y) {
+	void swapValue(T& x, T& y) {
 		T tmp = x; // 临时变量tmp存储x的值  
 		x = y;
 		y = tmp;
@@ -137,6 +142,11 @@ namespace func {
 	template<typename T> 
 	T addi(const T& x, const T& y) {
 		return x + y; // 直接返回相加结果 
+	} 
+	// 模版特化，模板特化是一种普通函数而非模板函数，应当在.cpp中定义，它是通用模板函数的特别类型的具体实现，是普通函数的一种
+	template<> 
+	inline Circle addi<Circle>(const Circle& x, const Circle& y) { 
+		return Circle(x.c_radius + y.c_radius);
 	}
 }
 
