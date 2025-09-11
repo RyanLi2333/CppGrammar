@@ -1,5 +1,4 @@
-#ifndef LINKLIST_H 
-#define LINKLIST_H 
+#pragma once 
 #include <ostream> 
 #include <iostream>
 using ElemType = int; // 元素值类型
@@ -26,14 +25,11 @@ private:
 public:
 	LinkList(); 
 	~LinkList();
-	bool initialize(); // 初始化，使头部节点不再是nullptr 
 	bool insert(int i, ElemType e); // 按位序插入新值 
-	bool destroy(); // 销毁链表
+	bool clear(); // 销毁链表
 	int getLength() const; // 返回LinkList长度O(1)实现
-	bool print(); // 打印链表  
+	bool print() const; // 打印链表  
 	bool makeExample(); // 生成一段展示性链表
 };
 
 std::ostream& operator<<(std::ostream& out, LinkList& list); // 重载输出流
-
-#endif 

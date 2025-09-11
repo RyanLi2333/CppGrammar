@@ -6,7 +6,7 @@
 /// Animal类实现
 
 Animal::Animal() : Animal(.0) {} // 委托构造函数 
-Animal::Animal(const double lifespan) : a_lifespan(BasicFunc::lessThan(lifespan, .0) ? .0 : lifespan) { 
+Animal::Animal(const double lifespan) : a_lifespan(func::lessThan(lifespan, .0) ? .0 : lifespan) { 
 	std::cout << "Created an animal successfully" << '\n';
 }
 
@@ -15,7 +15,7 @@ void Animal::operator()() {
 }
 
 void Animal::operator()(const double new_lifespan) {
-	if (!std::isnan(new_lifespan) && BasicFunc::greaterEqual(new_lifespan, .0)) {
+	if (!std::isnan(new_lifespan) && func::greaterEqual(new_lifespan, .0)) {
 		this->a_lifespan = new_lifespan; 
 		std::cout << "Modified successfully" << '\n';
 	}

@@ -1,12 +1,15 @@
-#ifndef UTILITIES_H
-#define UTILITIES_H 
+#pragma once
 #include <istream> 
 #include <ostream> 
-#include <iostream>
+#include <iostream> 
+#include <utility> // 使用std::swap 
+#include <cstddef> // 使用size_t
 constexpr double MIN_EPSILON{1e-15}; // 最小误差精度  
 constexpr double MAX_EPSILON{1e-9}; // 最大误差精度
 
-namespace BasicFunc {
+class Circle; // 提前声明有Circle
+
+namespace func {
 	void greeting(); // 问候函数 
 	void farewell(); // 告别函数
 	double getPI(); // 获取PI的值 
@@ -16,46 +19,36 @@ namespace BasicFunc {
 	bool greaterEqual(double x, double y); // 大于等于 
 	bool lessEqual(double x, double y); // 小于等于 
 	bool isZero(double x); // 判断是否为0 
-	template<typename T> // 模板放.h中定义
-	void swapValue(T& x, T& y) { // 互换值 
-		T tmp = x; // 临时变量tmp存储x的值  
-		x = y;
-		y = tmp;
-	}
-	template<typename T> // 展示值
-	void printValue(const T& x, const T& y) {
-		std::cout << "left value is " << x << '\n'; 
-		std::cout << "right value is " << y << '\n';
-	}
-	template<typename T> // 选择排序O(n^2)
-	void sortOfBasicArray(T* array, size_t length) {
-		for (size_t ship = 0, minNum = 0; ship < length - 1; ++ship) { // 将首个数据赋给ship游标，表示数组下标
-			minNum = ship; // 重置minNum
-			for (size_t tag = ship + 1; tag <= length - 1; tag++) { // ship之后的数的下标 
-				if (array[tag] < array[minNum]) { // 发现有索引minNum小于索引ship的了 
-					minNum = tag; // 把当前tag的值传给minNum标记
-				}
-			}
-			if (minNum != ship) { // 交换数
-				T tmp = array[ship]; 
-				array[ship] = array[minNum]; 
-				array[minNum] = tmp;
-			}
-		}
-	} // 放入任意基本数据类型的数组实现从小到大排序 
+	// 互换值 模板函数
+	template<typename T> // 模板放.h中定义 
+	void swapValue(const T& x, const T& y);
+	// 展示值
 	template<typename T> 
-	void printArray(T* array, size_t length) {
-		for (register size_t i = 0; i < length; ++i) {
-			std::cout << array[i]; 
-			if (i < length - 1) std::cout << ' '; 
-		}
-		std::cout << '\n';
-	}
+	void printValue(const T& x, const T& y); 
+	// 放入任意基本数据类型的数组实现从小到大排序 
+	template<typename T, size_t N> 
+	void sortOfBasicArray(T (&array)[N]);
+	// 打印任意基本数据类型的数组
+	template<typename T, size_t N> 
+	void printArray(const T(&array)[N]);
+	// 任意基本数据类型相加
+	template<typename T> 
+	T addi(const T& x, const T& y);
 }
+/*
+模板 
+如果同名，函数模板和函数默认调用函数
+可以通过空模板参数列表主动调用模板函数
+函数模板也可以发生重载 
+只有在没有普通函数或模板匹配更精确时，编译器会调用函数模板
+
+函数模板不可以发生隐式类型转换，但可以手动显式隐式类型转换 
+函数模板显式指定类型可以发生隐式类型转换
+*/
 
 // 圆类 
 class Circle { 
-	friend double BasicFunc::getPI(); // 声明全局函数做友元，全局函数可以访问该类私有成员 
+	friend double func::getPI(); // 声明全局函数做友元，全局函数可以访问该类私有成员 
 	friend std::istream& operator>>(std::istream& cin, Circle& circle); // 友元 
 	friend bool operator==(const Circle& c1, const Circle& c2); 
 	friend bool operator!=(const Circle& c1, const Circle& c2);
@@ -99,6 +92,55 @@ bool operator<(const Circle& c1, const Circle& c2); // 小于号重载
 bool operator<=(const Circle& c1, const Circle& c2); // 小于等于号重载 
 
 
+/// 模板定义：
+namespace func {  
+	// 互换值模板函数 
+	template<typename T> 
+	void swapValue(const T& x, const T& y) {
+		T tmp = x; // 临时变量tmp存储x的值  
+		x = y;
+		y = tmp;
+	}
+	// 打印两个变量值ab
+	template<typename T> 
+	void printValue(const T& x, const T& y) {
+		std::cout << "left value is " << x << '\n';
+		std::cout << "right value is " << y << '\n';
+	}
+	// 选择排序实现
+	template<typename T, size_t N> 
+	void sortOfBasicArray(T(&array)[N]) { // 基本数据类型数组选择排序 
+		for (size_t i = 0; i + 1 < N; ++i) { // i最大只能达到i - 2的数
+			size_t min_i = i; // 保存最小值的索引 
+			for (size_t j = min_i + 1; j < N; ++j) {
+				if (array[j] < array[min_i])
+					min_i = j;
+			}
+			if (min_i != i) // 如果min_i和i已经不一样了，说明有更小的
+				std::swap(array[i], array[min_i]);
+		}
+	} 
+	// 打印数组 
+	template<typename T, size_t N> // 这里的N是编译期声明的size_t参数N
+	void printArray(const T(&array)[N]) { 
+		if constexpr (N == 0) {
+			std::cout << "[]"; // 打印空数组 
+		} else if (N == 1) {
+			std::cout << array[0]; // 打印第一个元素
+		}
+		for (size_t i = 1; i < N; ++i) { // 继续打印其他元素 
+			std::cout << ' ' << array[i];
+		}
+		std::cout << '\n'; // 换行
+	}
+	// 相加模板函数
+	template<typename T> 
+	T addi(const T& x, const T& y) {
+		return x + y; // 直接返回相加结果 
+	}
+}
+
+
 /*
 静态成员static
 静态成员变量：就是类属性.
@@ -114,5 +156,4 @@ bool operator<=(const Circle& c1, const Circle& c2); // 小于等于号重载
 cpp类与面向对象模型中，编译器只帮你生成无参构造函数，但前提是：
 没手动写任何构造函数且基类有默认构造函数可用(在继承关系中)
 */
-
-#endif 
+ 

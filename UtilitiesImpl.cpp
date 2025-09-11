@@ -4,15 +4,15 @@
 #include <algorithm>
 #include "Utilities.h" // Á´½ÓÍ·ÎÄ¼ş£¬ÔÚ.cppÖĞ¿ÉÒÔÈ«¾Öusing xx£¬ÔÚ.hÖĞÊ¹ÓÃstd::
 
-void BasicFunc::greeting() {
+void func::greeting() {
 	std::cout << "------Welcome to the world of Cpp... ------" << '\n'; 
 } // ÎÊºòº¯Êı
 
-void BasicFunc::farewell() {
+void func::farewell() {
 	std::cout << "------See You... ------" << '\n'; 
 } // ¸æ±ğº¯Êı 
 
-bool BasicFunc::isEqual(double x, double y) {
+bool func::isEqual(double x, double y) {
 	if (std::isnan(x) || std::isnan(y))
 		return false;
 
@@ -21,7 +21,7 @@ bool BasicFunc::isEqual(double x, double y) {
 	return diff < MIN_EPSILON || maxOne < MIN_EPSILON || diff < maxOne * MAX_EPSILON; // º¯ÊıÊ½±à³Ì 
 }
 
-bool BasicFunc::greaterThan(double x, double y) { 
+bool func::greaterThan(double x, double y) { 
 	if (std::isnan(x) || std::isnan(y)) // ´¦Àíx»òyÎªNaNµÄÇé¿ö
 		return false; 
 
@@ -33,31 +33,31 @@ bool BasicFunc::greaterThan(double x, double y) {
 	return diff > maxOne * MAX_EPSILON; // ´óÓÚÏà¶Ô¾«¶È·µ»Øtrue
 }
 
-bool BasicFunc::lessThan(double x, double y) { // Ğ¡ÓÚºÅ
+bool func::lessThan(double x, double y) { // Ğ¡ÓÚºÅ
 	return greaterThan(y, x); // ÍµÀÁÊµÏÖ
 } 
 
-bool BasicFunc::greaterEqual(double x, double y) { // ´óÓÚµÈÓÚºÅ
+bool func::greaterEqual(double x, double y) { // ´óÓÚµÈÓÚºÅ
 	if (std::isnan(x) || std::isnan(y)) // ¶ÀÁ¢´¦ÀíNaNÎÊÌâ
 		return false; 
 
 	return !lessThan(x, y); // ÍµÀÁÊµÏÖ
 } 
 
-bool BasicFunc::lessEqual(double x, double y) { // Ğ¡ÓÚµÈÓÚºÅ
+bool func::lessEqual(double x, double y) { // Ğ¡ÓÚµÈÓÚºÅ
 	if (std::isnan(x) || std::isnan(y)) // ¶ÀÁ¢´¦ÀíNaNÎÊÌâ 
 		return false;
 
 	return !greaterThan(x, y); // ÍµÀÁÊµÏÖ 
 } 
 
-bool BasicFunc::isZero(double x) {
+bool func::isZero(double x) {
 	return isEqual(x, .0);
 }
 
 Circle::Circle() : Circle(.0) {} // Î¯ÍĞ¹¹Ôìº¯Êı  
 Circle::Circle(const Circle& other) : Circle(other.c_radius) {}
-Circle::Circle(double radius) : c_radius(BasicFunc::lessThan(radius, .0) ? .0 : radius) {
+Circle::Circle(double radius) : c_radius(func::lessThan(radius, .0) ? .0 : radius) {
 	std::cout << "Create a circle... " << '\n'; 
 } // º¬²Î¹¹Ôìº¯Êı 
 
@@ -93,7 +93,7 @@ Circle& Circle::addRadiusFrom(Circle& other) {
 	return *this;
 } // Ô²µÄ°ë¾¶Á´Ê½¼Ó·¨ 
 
-double BasicFunc::getPI() {
+double func::getPI() {
 	return Circle::C_PI;
 } // ·µ»ØPIµÄÖµ
 
@@ -120,7 +120,7 @@ Circle& Circle::operator+=(const Circle& other) { // ¼Ó·¨¸³ÖµÔËËã·ûÖØÔØ
 
 Circle& Circle::operator-=(const Circle& other) {
 	this->c_radius -= other.c_radius; 
-	if (BasicFunc::lessThan(this->c_radius, .0))
+	if (func::lessThan(this->c_radius, .0))
 		this->c_radius = .0; // °ë¾¶²»ÄÜÎª¸ºÊı£¬Èç¹û¼õÊı¹ı´óÔòÖ±½Ó¸³0 
 
 	return *this;
@@ -136,7 +136,7 @@ std::ostream& operator<<(std::ostream& out, const Circle& circle) { // ×óÒÆÔËËã·
 
 std::istream& operator>>(std::istream& in, Circle& circle) { // ÓÒÒÆÔËËã·ûÖØÔØ 
 	in >> circle.c_radius;
-	if (BasicFunc::lessThan(circle.c_radius, .0)) // Èç¹ûÊÇ¸ºÊıÖ±½Ó¹éÁã
+	if (func::lessThan(circle.c_radius, .0)) // Èç¹ûÊÇ¸ºÊıÖ±½Ó¹éÁã
 		circle.c_radius = .0;
 
 	return in;
@@ -177,30 +177,30 @@ Circle Circle::operator--(int) { // ºóÖÃ×Ô¼õ
 */
 
 bool operator==(const Circle& c1, const Circle& c2) { // µÈÓÚºÅÖØÔØ 
-	return BasicFunc::isEqual(c1.c_radius, c2.c_radius); 
+	return func::isEqual(c1.c_radius, c2.c_radius); 
 } 
 
 bool operator!=(const Circle& c1, const Circle& c2) { // ²»µÈºÅÖØÔØ
 	if (std::isnan(c1.c_radius) || std::isnan(c2.c_radius))
 		return false;
 
-	return !BasicFunc::isEqual(c1.c_radius, c2.c_radius);
+	return !func::isEqual(c1.c_radius, c2.c_radius);
 }
 
 bool operator>(const Circle& c1, const Circle& c2) { // ´óÓÚºÅÖØÔØ 
-	return BasicFunc::greaterThan(c1.c_radius, c2.c_radius);
+	return func::greaterThan(c1.c_radius, c2.c_radius);
 } 
 
 bool operator>=(const Circle& c1, const Circle& c2) { // ´óÓÚµÈÓÚºÅÖØÔØ 
-	return BasicFunc::greaterEqual(c1.c_radius, c2.c_radius); 
+	return func::greaterEqual(c1.c_radius, c2.c_radius); 
 }
 
 bool operator<(const Circle& c1, const Circle& c2) { // Ğ¡ÓÚºÅÖØÔØ
-	return BasicFunc::lessThan(c1.c_radius, c2.c_radius);
+	return func::lessThan(c1.c_radius, c2.c_radius);
 }
 
 bool operator<=(const Circle& c1, const Circle& c2) { // Ğ¡ÓÚµÈÓÚºÅÖØÔØ
-	return BasicFunc::lessEqual(c1.c_radius, c2.c_radius); 
+	return func::lessEqual(c1.c_radius, c2.c_radius); 
 } 
 
 void Circle::operator()() { // º¯Êıµ÷ÓÃÔËËã·ûÖØÔØ

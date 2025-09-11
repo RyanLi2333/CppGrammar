@@ -1,8 +1,7 @@
-#ifndef STUDENT_H 
-#define STUDENT_H 
+#pragma once 
 #include <string> 
 
-class Phone; // 声明类Phone
+class Phone; // 声明类func
 
 // 学生类
 class Student {
@@ -24,7 +23,7 @@ public:
 
 // 手机类
 class Phone {
-	friend class Student;// 声明类做友元，Student类可以访问Phone类的私有成员 
+	friend class Student;// 声明类做友元，Student类可以访问phone类的私有成员 
 	std::string p_name; // 手机名
 
 public:
@@ -32,8 +31,6 @@ public:
 	Phone();
 	~Phone();
 };
-
-#endif
 
 /*
 C++中class和struct可以视为等价

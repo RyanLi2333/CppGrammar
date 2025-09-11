@@ -1,6 +1,4 @@
-#ifndef ANIMAL_H 
-#define ANIMAL_H 
-
+#pragma once 
 /**
 这个部分是为了介绍Cpp的继承和多态  
 多态需要满足的条件：
@@ -36,11 +34,13 @@ class Dog : public Animal { // 以public的方式继承Animal
 public: 
 	Dog(); 
 	Dog(const double lifespan);
-	void shout() override; 
 	~Dog();
-};
+	void shout() override;
+}; 
 
-#endif 
+class CatDog : virtual public Cat, virtual public Dog {
+
+};
 
 /**
 在继承中，基类的所有非静态成员变量都会被派生类继承；
