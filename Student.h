@@ -5,9 +5,9 @@ class Phone; // 声明类func
 
 // 学生类
 class Student {
-	std::string s_id; // 成员变量，学生学号
-	std::string s_name; // 成员变量，学生姓名 
-	Phone* s_phone; // 学生手机
+	std::string s_id_; // 成员变量，学生学号
+	std::string s_name_; // 成员变量，学生姓名 
+	Phone* s_phone_; // 学生手机
 
 public: 
 	Student(); // 空构造

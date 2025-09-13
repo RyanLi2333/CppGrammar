@@ -106,12 +106,14 @@ namespace func {
 		x = y;
 		y = tmp;
 	}
+
 	// 打印两个变量值ab
 	template<typename T> 
 	void printValue(const T& x, const T& y) {
 		std::cout << "left value is " << x << '\n';
 		std::cout << "right value is " << y << '\n';
 	}
+	
 	// 选择排序实现
 	template<typename T, size_t N> 
 	void sortOfBasicArray(T(&array)[N]) { // 基本数据类型数组选择排序 
@@ -125,6 +127,7 @@ namespace func {
 				std::swap(array[i], array[min_i]);
 		}
 	} 
+	
 	// 打印数组 
 	template<typename T, size_t N> // 这里的N是编译期声明的size_t参数N
 	void printArray(const T(&array)[N]) { 
@@ -138,11 +141,13 @@ namespace func {
 		}
 		std::cout << '\n'; // 换行
 	}
+	
 	// 相加模板函数
 	template<typename T> 
 	T addi(const T& x, const T& y) {
 		return x + y; // 直接返回相加结果 
 	} 
+	
 	// 模版特化，模板特化是一种普通函数而非模板函数，应当在.cpp中定义，它是通用模板函数的特别类型的具体实现，是普通函数的一种
 	template<> 
 	inline Circle addi<Circle>(const Circle& x, const Circle& y) { 

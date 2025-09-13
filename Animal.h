@@ -9,7 +9,7 @@
 /// Animal类
 class Animal {
 private: // Default 
-	double a_lifespan; 
+	double a_lifespan_; 
 	
 public: 
 	Animal(); 
@@ -38,9 +38,7 @@ public:
 	void shout() override;
 }; 
 
-class CatDog : virtual public Cat, virtual public Dog {
-
-};
+class CatDog : virtual public Cat, virtual public Dog {};
 
 /**
 在继承中，基类的所有非静态成员变量都会被派生类继承；

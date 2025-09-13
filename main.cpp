@@ -1,11 +1,9 @@
-#include <iostream>
-#include "Utilities.h" 
+#include "main.h"
 
 int main() {
-	using namespace func;
-	greeting(); // Hello 
+	func::greeting(); // Hello 
 
-	farewell(); // byebye
+	func::farewell(); // byebye
 	return 0; 
 } 
 

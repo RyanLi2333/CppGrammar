@@ -7,46 +7,46 @@ Student::Student() : Student("0000", "UNKNOWN", Phone()) {} // Î¯ÍĞ¹¹Ôìº¯Êı£¬¹¹Ô
 Student::Student(const std::string& id) : Student(id, "UNKNOWN", Phone()) {} // ¹¹Ôìº¯ÊıµÄ¾ßÌåÊµÏÖ
 Student::Student(const std::string& id, const std::string& name) : Student(id, name, Phone()) {} // ¹¹Ôìº¯ÊıµÄ¾ßÌåÊµÏÖ 
 
-Student::Student(const std::string& id, const std::string& name, const Phone& phone) : s_id(id), s_name(name), s_phone(new Phone(phone)) {
+Student::Student(const std::string& id, const std::string& name, const Phone& phone) : s_id_(id), s_name_(name), s_phone_(new Phone(phone)) {
 	std::cout << "Created a student successfully..." << '\n';
 }
 
-Student::Student(const Student& other) : s_id(other.s_id), s_name(other.s_name), s_phone(new Phone(*other.s_phone)) { // Éî¿½±´¹¹Ôì
+Student::Student(const Student& other) : s_id_(other.s_id_), s_name_(other.s_name_), s_phone_(new Phone(*other.s_phone_)) { // Éî¿½±´¹¹Ôì
 	std::cout << "Copied a student successfully..." << '\n';
 }
 
 Student& Student::operator=(const Student& other) {
 	if (this != &other) { // ·ÀÖ¹×Ô¸³Öµ
-		delete s_phone; // ÊÍ·Å¾É×ÊÔ´
-		this->s_phone = new Phone(*other.s_phone); // Éî¿½±´
-		this->s_id = other.s_id;
-		this->s_name = other.s_name;
+		delete s_phone_; // ÊÍ·Å¾É×ÊÔ´
+		this->s_phone_ = new Phone(*other.s_phone_); // Éî¿½±´
+		this->s_id_ = other.s_id_;
+		this->s_name_ = other.s_name_;
 	}
 	return *this;
 }
 
 Student::~Student() { // Îö¹¹º¯Êı¶¨Òå
-	if (s_phone != nullptr) {
-		delete s_phone;
-		this->s_phone = nullptr;
+	if (s_phone_ != nullptr) {
+		delete s_phone_;
+		this->s_phone_ = nullptr;
 	}
 	std::cout << "Deleted a student successfully..." << '\n'; 
 }
 
 void Student::getInfo() const { // ³ÉÔ±·½·¨µÄ¾ßÌåÊµÏÖ 
-	std::cout << this->s_id << '\n'; 
-	std::cout << this->s_name << '\n'; 
-	std::cout << this->s_phone->p_name << '\n'; // ÓÉÓÚÉèÖÃÁËÓÑÔª£¬¿ÉÒÔ·ÃÎÊPhoneµÄË½ÓĞ±äÁ¿s_phone
+	std::cout << this->s_id_ << '\n'; 
+	std::cout << this->s_name_ << '\n'; 
+	std::cout << this->s_phone_->p_name << '\n'; // ÓÉÓÚÉèÖÃÁËÓÑÔª£¬¿ÉÒÔ·ÃÎÊPhoneµÄË½ÓĞ±äÁ¿s_phone_
 }
 
 void Student::setInfo(const std::string& id, const std::string& name, const Phone& phone) { 
-	if (s_phone != nullptr) {
-		delete s_phone;
-		this->s_phone = nullptr;
+	if (s_phone_ != nullptr) {
+		delete s_phone_;
+		this->s_phone_ = nullptr;
 	}
-	this->s_id = id; // thisÊÇÒ»¸öÖ¸Õë£¬Ë­µ÷ÓÃthis£¬this¾ÍÖ¸ÏòÊ²Ã´ÀàµÄ¶ÔÏó
-	this->s_name = name; 
-	this->s_phone = new Phone(phone);
+	this->s_id_ = id; // thisÊÇÒ»¸öÖ¸Õë£¬Ë­µ÷ÓÃthis£¬this¾ÍÖ¸ÏòÊ²Ã´ÀàµÄ¶ÔÏó
+	this->s_name_ = name; 
+	this->s_phone_ = new Phone(phone);
 	std::cout << "Setting successfully..." << '\n'; 
 }
 
